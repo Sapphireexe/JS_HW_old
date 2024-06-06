@@ -24,10 +24,11 @@ console.log('\n');
 */
 
 let outputString = ':)';
+let result = '';
 
 for (let i = 0; i < 5; i++) {
-    console.log(outputString);
-    outputString += ':)';
+    result += outputString;
+    console.log(result);   
 };
 
 console.log('\n');
