@@ -45,8 +45,10 @@ function sizeConverter (sizeInBytes) {
     count++;
   };
 
-  if (count > 0) {
+  if (count > 0 && count < 4) {
     result = sizeInBytes + ' ' + sizeValue.slice((count - 1) * 2, count * 2);
+  } else if (count >= 4) {
+    result = sizeInBytes + ' ' + sizeValue.slice(6, 8);
   } else {
     result = sizeInBytes + ' bytes';
   };
