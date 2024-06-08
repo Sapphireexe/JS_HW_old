@@ -25,12 +25,12 @@ function getEmployeeInfo(employeeName) {
         throw new Error('Employee name "' + employeeName + '" is not a valid data type.');
     };
 
-    employeeList.forEach(function(nameFromEmployeeList, i) { 
-        if (nameFromEmployeeList === employeeName) {
+    for (let i = 0; i < employeeList.length; i++) {
+        if (employeeList[i] === employeeName) {
             searchResult.push(employeeList[i], employeeSalary[i]);
         };
-    });
-    
+    };
+
     if (searchResult.length === 0) {
         return null;
     } else {
