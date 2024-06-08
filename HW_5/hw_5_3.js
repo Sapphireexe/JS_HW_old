@@ -9,10 +9,6 @@
 console.log(vowelsConsonantsCounter('Incomprehensible'));
 console.log(vowelsConsonantsCounter('ABC'));
 console.log(vowelsConsonantsCounter('abc'));
-console.log(vowelsConsonantsCounter(''));
-console.log(vowelsConsonantsCounter(1));
-console.log(vowelsConsonantsCounter('Incomprehensible dsa'));
-console.log(vowelsConsonantsCounter('Incomprehensibleйцукен'));
 
 function vowelsConsonantsCounter (str) {
   const vowels = 'eyuioa';
@@ -21,7 +17,7 @@ function vowelsConsonantsCounter (str) {
   let consonantsNumber = 0;
 
   if (! str || /[^a-zA-Z]/g.test(str)) {
-    return `Invalid input string. Must contain word only.`
+    throw new Error(`Invalid input string. Must contain word only.`);
   };
 
   for (let i = 0; i < str.length; i++) {
@@ -55,11 +51,11 @@ function caesarCipher (str, offset) {
   let encryptedString = '';
 
   if (! str || /[^a-zA-Z]/g.test(str)) {
-    return `Invalid input string. Must contain word only.`
+    throw new Error(`Invalid input string. Must contain word only.`);
   };
 
   if (offset !== 1 && offset !== -1) {
-    return `Invalid offset. Must be only '1' or '-1'.`
+    throw new Error(`Invalid offset. Must be only '1' or '-1'.`);
   };
 
   for (let i = 0; i < str.length; i++) {
