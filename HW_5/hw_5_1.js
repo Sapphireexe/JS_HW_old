@@ -23,28 +23,34 @@ console.log('\n');
   Рекоммендация: попробуйте метод .repeat()
 */
 
-let outputString = ':)';
+const outputString = ':)';
+let result1 = '';
 
 for (let i = 0; i < 5; i++) {
-    console.log(outputString);
-    outputString += ':)';
+    result1 += outputString;
+    console.log(result1);   
 };
 
 console.log('\n');
 
 //Вариант 2
 
-for (let i = 1; i <= 5; i++) {
-    console.log(':)'.repeat(i));
-};
+let result2 = '';
 
-//Вариант 3
+for (let i = 1; i <= 5; i++) {
+    result2 = outputString.repeat(i);
+    console.log(result2);
+};
 
 console.log('\n');
 
+//Вариант 3
+
 let iteration = 0;
+let result3 = '';
 
 while (iteration < 5) {
-    console.log(':)'.repeat(iteration+1));
+    result3 = outputString.repeat(iteration + 1);
+    console.log(result3);
     iteration++;
 };

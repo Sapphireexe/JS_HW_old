@@ -18,52 +18,45 @@
   Результат должен быть округлен до 1 знака после запятой методом .toFixed(), про который надо почитать самим ;)
 */
 
-console.log(sizeConverter(65846)); // kB
-console.log(sizeConverter(0)); // B
-console.log(sizeConverter(10_000_000)); // MB
-console.log(sizeConverter(1_000_000)); // kB
-console.log(sizeConverter(1_000_000_000_000_000)); // TB
-console.log(sizeConverter(1_099_511_627_776)); // TB
-console.log(sizeConverter(1_099_511_627_775)); // GB
-console.log(sizeConverter(1_048_576)); // MB
-console.log(sizeConverter(1_048_575)); // kB
-console.log(sizeConverter(1024)); // kB
-console.log(sizeConverter(1023)); // B
+console.log(sizeConverter(65846));
+console.log(sizeConverter(0));
+console.log(sizeConverter(10_000_000));
+console.log(sizeConverter(1_000_000));
+console.log(sizeConverter(1_000_000_000_000_000));
+console.log(sizeConverter(1_099_511_627_776));
+console.log(sizeConverter(1_099_511_627_775));
+console.log(sizeConverter(1_048_576));
+console.log(sizeConverter(1_048_575));
+console.log(sizeConverter(1024));
+console.log(sizeConverter(1023));
 
-function sizeConverter (a) {
+function sizeConverter (sizeInBytes) {
+  const byte = 1024;
+  const sizeValue = 'kBMBGBTB';
   let result;
-  let byte = 1024;
+  let count = 0;
 
-  if (isNaN(a)) {
-    return 'Input is not a number.'
+  if (isNaN(sizeInBytes) || typeof sizeInBytes !== 'number') {
+    throw new Error ('Input is not a number.')
   };
 
-  if (a < byte) { // bytes
-    result = a + ' bytes';
-  } else if (a < byte**2) { // kB
-    result = (a / byte).toFixed(1) + ' kB';
-  } else if (a < byte**3) { // MB
-    result = (a / byte**2).toFixed(1) + ' MB';
-  } else if (a < byte**4) { // GB
-    result = (a / byte**3).toFixed(1) + ' GB';
-  } else if (a >= byte**4) { // TB
-    result = (a / byte**4).toFixed(1) + ' TB';
+  while (sizeInBytes >= byte) {
+    sizeInBytes = (sizeInBytes / byte).toFixed(1);
+    count++;
+  };
+
+  if (count > 0 && count < 4) {
+    result = sizeInBytes + ' ' + sizeValue.slice((count - 1) * 2, count * 2);
+  } else if (count >= 4) {
+    result = sizeInBytes + ' ' + sizeValue.slice(6, 8);
+  } else {
+    result = sizeInBytes + ' bytes';
   };
 
   return zeroCutter(result);
 };
 
 function zeroCutter (result) {
-  if (result.slice(0,6) === '1024.0') {
-    if (result.slice(7,9) === 'kB') {
-      result = '1 MB';
-    } else if (result.slice(7,9) === 'MB') {
-      result = '1 GB';
-    } else if (result.slice(7,9) === 'GB') {
-      result = '1 TB';
-    };
-  };
-
   if (result.includes('.0')) {
     result = result.replace('.0','');
   };
@@ -145,7 +138,7 @@ function camelCaseConverter (a) {
   let result = '';
 
   if (!a || typeof a !== 'string') {
-    return 'Error. Invalid input data.';
+    throw new Error("Invalid input data.");
   };
 
   const inputString = a.trim();
