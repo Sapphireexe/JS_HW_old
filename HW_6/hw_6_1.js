@@ -20,13 +20,19 @@ function getEmployeeInfo(employeeName) {
     const employeeList = ['Anatoly','Geralt','Mike','Anna','Mike'];
     const employeeSalary = [5000,1000,2000,1500,800];
     const searchResult = [];
+    const i = employeeList.indexOf(employeeName)
 
     if (!employeeName || typeof employeeName !== 'string') {
         throw new Error('Employee name "' + employeeName + '" is not a valid data type.');
     };
 
-    for (let i = 0; i < employeeList.length; i++) {
-        if (employeeList[i] === employeeName) {
+    // for (let i = 0; i < employeeList.length; i++) {
+    //     if (employeeList[i] === employeeName) {
+    //         searchResult.push(employeeList[i], employeeSalary[i]);
+    //     };
+    // };
+
+    if (i == -1) return null
             searchResult.push(employeeList[i], employeeSalary[i]);
         };
     };
