@@ -21,11 +21,7 @@ function uniquePizzasSeeker (myPizzas) {
     };
   };
 
-  if (myUniquePizzas.length !== 0) {
-    return myUniquePizzas;
-  } else if (myUniquePizzas.length === 0) {
-    return null;
-  };
+  return myUniquePizzas.length ? myUniquePizzas : null;
 };
 
 console.log(uniquePizzasSeeker(['Margherita', 'Cheese and Mushrooms', 'hawai', 'Diablo', 'Chicken BBQ']));

@@ -13,7 +13,12 @@ function singleNumber (number) {
   const numberArray = [...number.toString()];
   number = 0;
   for (let i = 0; i < numberArray.length; i++) {
-    number += +numberArray[i];
+    if (numberArray[i] === '-') {
+      i++;
+      number -= +numberArray[i];
+    } else {
+      number += +numberArray[i];
+    };
   };
 
   if (number < 10) {
@@ -26,6 +31,7 @@ function singleNumber (number) {
 console.log(singleNumber(19));
 console.log(singleNumber(123));
 console.log(singleNumber(555));
+console.log(singleNumber(-19));
 
 console.log('\n');
 
@@ -43,7 +49,7 @@ function doubleLettersToNextLetter (inputString) {
   const processedArray = [...inputString];
 
   for (let i = 0; i < processedArray.length - 1; i++) {
-    if (processedArray[i] !== processedArray [i + 1]) {
+    if (processedArray[i] !== processedArray [i + 1] || /[z]/i.test(processedArray[i])) {
       continue;
     } else if (processedArray[i] === processedArray [i + 1]) {
       const charCode = processedArray[i].charCodeAt(0);
@@ -56,3 +62,4 @@ function doubleLettersToNextLetter (inputString) {
 
 console.log(doubleLettersToNextLetter('Letter'));
 console.log(doubleLettersToNextLetter('aabc'));
+console.log(doubleLettersToNextLetter('zzabc'));
