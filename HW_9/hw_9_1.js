@@ -95,6 +95,7 @@ class Animal {
             throw new Error ('Color should be red, white, blue or white');
         }
         this._color = newColor;
+        console.log(`Color of ${this.type} was set to ${this._color}`);
     }
 }
 
@@ -111,7 +112,7 @@ class Snake extends Animal {
     }
 }
 
-const snake = new Snake ({type: 'snake', color: 'red', weight: '2 m', height: '10 cm', place_of_origin: 'Africa'}, true);
+const snake = new Snake ({type: 'snake', color: 'red', weight: '8 kg', height: '10 cm', place_of_origin: 'Africa'}, true);
 
 console.log(snake.getInfo());
 console.log(snake.checkPoisonous());

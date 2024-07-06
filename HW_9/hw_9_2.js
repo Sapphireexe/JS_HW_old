@@ -78,6 +78,7 @@ class Animal {
       throw new Error('Color should be red, white, blue or white');
     }
     this._color = newColor;
+    console.log(`Color of ${this.type} was set to ${this._color}`);
   }
 }
 
@@ -101,12 +102,20 @@ class Bird extends Animal {
     super(params);
     this.#isFlying = isFlying;
   }
+
+  getFlying() {
+    return this.#isFlying ? `${this.type} is flying` : `${this.type} is not flying`;
+  }
 }
 
 class CatLike extends Animal {
   constructor(params, isSafeToPet) {
     super(params);
     this.isSafeToPet = isSafeToPet;
+  }
+
+  getSafeToPet() {
+    return this.isSafeToPet ? `${this.type} is safe to pet` : `${this.type} is not safe to pet`;
   }
 }
 
@@ -123,9 +132,6 @@ class Worker {
 }
 
 class Zoo {
-  workers = [];
-  animals = [];
-
   constructor(params) {
     this.address = params.address;
     this.title = params.title;
@@ -169,9 +175,10 @@ class Zoo {
 
   addWorker (worker) {
     if (!(worker instanceof Worker)) {
-      throw new Error ('Worker is not instance of class Worker');
+      throw new Error (`${worker} is not instance of class Worker`);
     }
     this.workers.push(worker);
+    console.log(`Successfully hired ${this.workers.at(-1).firstName} ${this.workers.at(-1).lastName} to workers`);
   }
 
   addAnimal (animal) {
@@ -182,18 +189,51 @@ class Zoo {
       throw new Error ('There will be no snakes, mister Potter!');
     }
     this.animals.push(animal);
+    console.log(`Successfully added ${this.animals.at(-1).type} to animals`);
   }
 
-  removeWorker () {
-
+  removeWorker (fullName, phoneNumber) {
+    if (typeof fullName !== 'string' && typeof phoneNumber !== 'number') {
+      throw new Error ('Invalid typeof fullName and/or phoneNumber');
+    }
+    const result = this.workers.find(worker => `${worker.firstName} ${worker.lastName}` === fullName && worker.phone === phoneNumber);
+    if (result === undefined) {
+      throw new Error (`No workers found with ${fullName} and ${phoneNumber}`);
+    }
+    this.workers.splice((this.workers.indexOf(result)), 1);
+    console.log(`Successfully fired ${result.firstName} ${result.lastName} from workers`);
   }
   
-  removeAnimal () {
-
+  removeAnimal (animalType, animalColor) {
+    if (typeof animalType !== 'string' && typeof animalColor !== 'string') {
+      throw new Error ('Invalid typeof animalType and/or animalColor');
+    }
+    const result = this.animals.find(animal => animal.type === animalType && animal.color === animalColor);
+    if (result === undefined) {
+      throw new Error (`No animals found with ${animalType} and ${animalColor}`);
+    }
+    this.animals.splice((this.animals.indexOf(result)), 1);
+    console.log(`Successfully removed ${result.type} with ${result.color} color from animals`);
   }
 }
 
+const parrot = new Bird({ type: 'Cacadu', color: 'white', weight: '0.8 kg', height: '15 cm', place_of_origin: 'USA'}, true );
+const bigCat = new CatLike({ type: 'Panther', color: 'black', weight: '60 kg', height: '130 cm', place_of_origin: 'Africa'}, false );
+const dog = new Animal({ type: 'Houndeye', color: 'blue', weight: '25 kg', height: '80 cm', place_of_origin: 'USA'});
+const cobra = new Snake({ type: 'Snake', color: 'red', weight: '40cm', height: '30 cm', place_of_origin: 'Japan'}, true );
+const chick = new Bird({ type: 'chicken', color: 'red', weight: '4 kg', height: '20 cm', place_of_origin: 'USA'}, false );
+const worker1 = new Worker('Ace', 'Ventura', 9876543210);
+const worker2 = new Worker('James', 'Jameson', 1350485424);
+const worker3 = new Worker('John', 'Smith', 1354298765);
+const zoo = new Zoo({address: 'Big Prospect street', title: 'New Cool Zoo', ticketPrice: 15, workers: [worker1, worker2], animals: [parrot, bigCat, dog]});
 
-const catLike = new CatLike({ type: 'Meowrrr', color: 'red', weight: '40cm', height: '30cm', place_of_origin: 'Japan', isSafeToPet: "true" })
+console.log(zoo);
 
-console.log(catLike)
+zoo.addAnimal(chick);
+console.log(zoo);
+zoo.addWorker(worker3);
+console.log(zoo);
+zoo.removeWorker('James Jameson', 1350485424);
+console.log(zoo);
+zoo.removeAnimal('Houndeye', 'blue');
+console.log(zoo);
