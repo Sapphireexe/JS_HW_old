@@ -95,9 +95,81 @@ function getNumberOfPhotos (albumId, photos = []) {
   Например: currencyConvertor(USD, 40, EUR) ⇒ 35 EUR
   Решить с помощью в 2 вариантах: с  .then() и с использованием async/await
 
-*/
-
-
-/*
 https://exchangeratesapi.io/
 */
+
+const token = '664e30342e23d73b24ad30db27955ca4';
+
+function getCurrencyRates() {
+	const rates = fetch(`http://api.exchangeratesapi.io/v1/latest?access_key=${token}`)
+		.then(response => {
+			if (response.status !== 200 || !response.ok) {
+				throw new Error(`Can't fetch requested URL`);
+			}
+			return response.json();
+		})
+		.then(data => {
+			return data.rates;
+		})
+		.catch((error) => console.log(`Error during fetching: ${error}`));
+	return rates;
+}
+
+function currencyConverter(inputCurrency, amount, outputCurrency) {
+	getCurrencyRates()
+		.then(rates => {
+			const inputCurrencyRate = rates[inputCurrency];
+			if (!inputCurrencyRate) {
+				throw new Error(`${inputCurrency} was not found`);
+			}
+			const outputCurrencyRate = rates[outputCurrency];
+			if (!outputCurrencyRate) {
+				throw new Error(`${outputCurrency} was not found`);
+			}
+			if (isNaN(amount) || typeof amount !== 'number' || amount < 0) {
+				throw new Error(`Amount should be positive numerical value`);
+			}
+			const convertedAmount = (amount * outputCurrencyRate / inputCurrencyRate).toFixed(2);
+			console.log(`${amount} ${inputCurrency} in ${outputCurrency} will be ${convertedAmount} ${outputCurrency}`);
+		})
+		.catch((error) => console.log(`Error during converting: ${error}`));
+}
+
+currencyConverter('USD', 10, 'AUD');
+
+//#2
+
+async function getCurrencyRates_2() {
+	try {
+		const response = await fetch(`http://api.exchangeratesapi.io/v1/latest?access_key=${token}`);
+		if (response.status !== 200 || !response.ok) {
+			throw new Error(`Can't fetch requested URL`);
+		}
+		return (await response.json()).rates;
+	} catch (error) {
+		console.log(`Error during fetching: ${error}`);
+	}
+}
+
+async function currencyConverter_2(inputCurrency, amount, outputCurrency) {
+	try {
+		const rates = await getCurrencyRates_2();
+		const inputCurrencyRate = rates[inputCurrency];
+		if (!inputCurrencyRate) {
+			throw new Error(`${inputCurrency} was not found`);
+		}
+		const outputCurrencyRate = rates[outputCurrency];
+		if (!outputCurrencyRate) {
+			throw new Error(`${outputCurrency} was not found`);
+		}
+		if (isNaN(amount) || typeof amount !== 'number' || amount < 0) {
+			throw new Error(`Amount should be positive numerical value`);
+		}
+		const convertedAmount = (amount * outputCurrencyRate / inputCurrencyRate).toFixed(2);
+		console.log(`${amount} ${inputCurrency} in ${outputCurrency} will be ${convertedAmount} ${outputCurrency}`);
+	} catch (error) {
+		console.log(`Error during converting: ${error}`);
+	}
+}
+
+currencyConverter_2('UAH', 10, 'BYR');
